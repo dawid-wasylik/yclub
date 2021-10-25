@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 export interface Credentials {
   // Customize received credentials here
+  userId: number;
   username: string;
   token: string;
 }
@@ -55,9 +56,12 @@ export class CredentialsService {
       const storage = remember ? localStorage : sessionStorage;
       storage.setItem(credentialsKey, JSON.stringify(credentials));
       storage.setItem('token', JSON.stringify(credentials.token));
+      storage.setItem('user', JSON.stringify(credentials.userId));
     } else {
+      sessionStorage.removeItem('user');
       sessionStorage.removeItem(credentialsKey);
       localStorage.removeItem(credentialsKey);
+      localStorage.removeItem('user');
     }
   }
 }

@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
 
   login() {
     let payload = this.loginForm.getRawValue();
-    const login$ = this.authenticationService.login(payload.username, payload.password, true);
+    const login$ = this.authenticationService.login(payload.username, payload.password, false);
     login$.pipe(
       finalize(() => {
         this.loginForm.markAsPristine();

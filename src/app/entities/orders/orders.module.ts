@@ -16,7 +16,8 @@ import { TableModule } from 'primeng/table';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { OrdersComponent } from './orders.component';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
-
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { TooltipModule } from 'primeng/tooltip';
 import { DividerModule } from 'primeng/divider';
 
 import { DialogModule } from 'primeng/dialog';
@@ -29,8 +30,10 @@ import { SubmitApplicationComponent } from './submit-application/submit-applicat
     DynamicDialogModule,
     ButtonModule,
     CardModule,
+    InputTextareaModule,
     FormsModule,
     DialogModule,
+    TooltipModule,
     DividerModule,
     NgbModule,
     ScrollPanelModule,

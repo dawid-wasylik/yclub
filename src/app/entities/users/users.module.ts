@@ -7,6 +7,7 @@ import { AddEditUserComponent } from './add-edit-user/add-edit-user.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
+import { TooltipModule } from 'primeng/tooltip';
 import { RouterModule } from '@angular/router';
 import { BadgeModule } from 'primeng/badge';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
@@ -18,6 +19,7 @@ import { DynamicDialogModule } from 'primeng/dynamicdialog';
   imports: [
     CommonModule,
     TranslateModule,
+    TooltipModule,
     DynamicDialogModule,
     ButtonModule,
     CardModule,

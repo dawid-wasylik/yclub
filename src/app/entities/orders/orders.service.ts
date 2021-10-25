@@ -22,4 +22,7 @@ export class OrdersService {
   getOneOrders(id: number): Observable<HttpResponse<any>> {
     return this.http.get<any>(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
+  sendAnswer(params: any): Observable<HttpResponse<any>> {
+    return this.http.post<any>(`${this.resourceUrl}`, params, { observe: 'response' });
+  }
 }

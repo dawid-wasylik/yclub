@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { Logger, UntilDestroy, untilDestroyed } from '@shared';
 import { Credentials, CredentialsService } from './credentials.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Message } from 'primeng//api';
+import { PermService } from './perm.service';
 import { MessageService } from 'primeng/api';
 export interface LoginContext {
   email: string;
@@ -20,6 +20,7 @@ export interface LoginContext {
   providedIn: 'root',
 })
 export class AuthenticationService {
+  userId: number = 0;
   log = new Logger('Login');
   isUserLoggedIn$ = new BehaviorSubject<boolean>(false);
   error: string | undefined;
@@ -34,7 +35,8 @@ export class AuthenticationService {
     private http: HttpClient,
     private router: Router,
     private route: ActivatedRoute,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private permSerivce: PermService
   ) {}
 
   /**
@@ -44,15 +46,18 @@ export class AuthenticationService {
    */
   login(email: string, password: string, remember?: boolean): Observable<Credentials> {
     let data = {
+      userId: 0,
       username: email,
       token: '',
     };
     // Replace by proper authentication call
     this.http.post(`${this.url}/login`, { email, password }, this.httpOptions).subscribe(
       (resp: any) => {
+        this.permSerivce.setUser(resp.userId);
         this.messageService.add({ severity: 'success', summary: 'Service Message', detail: 'Via MessageService' });
         this.isUserLoggedIn$.next(true);
         data = {
+          userId: resp.userId,
           username: email,
           token: resp.token,
         };
