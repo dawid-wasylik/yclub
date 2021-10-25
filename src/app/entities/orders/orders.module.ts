@@ -19,7 +19,7 @@ import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { TooltipModule } from 'primeng/tooltip';
 import { DividerModule } from 'primeng/divider';
-
+import { ToastModule } from 'primeng/toast';
 import { DialogModule } from 'primeng/dialog';
 import { SubmitApplicationComponent } from './submit-application/submit-application.component';
 @NgModule({
@@ -33,6 +33,7 @@ import { SubmitApplicationComponent } from './submit-application/submit-applicat
     InputTextareaModule,
     FormsModule,
     DialogModule,
+    ToastModule,
     TooltipModule,
     DividerModule,
     NgbModule,

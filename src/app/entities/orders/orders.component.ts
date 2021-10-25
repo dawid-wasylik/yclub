@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Logger } from '@app/@shared';
 import { OrdersService } from './orders.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { PrimeNGConfig } from 'primeng/api';
 import { DialogModule } from 'primeng/dialog';
 import { PermService } from '@app/auth/perm.service';
+import { MessageService } from 'primeng/api';
 @Component({
   selector: 'app-orders',
   templateUrl: './orders.component.html',
@@ -19,9 +21,16 @@ export class OrdersComponent implements OnInit {
   displayNewApplication = false;
   formLink = 'localhost:4200/submitYourapplication';
   order: any;
-  constructor(private service: OrdersService, private formBuilder: FormBuilder, private permSerivce: PermService) {}
+  constructor(
+    private service: OrdersService,
+    private primengConfig: PrimeNGConfig,
+    private formBuilder: FormBuilder,
+    private permSerivce: PermService,
+    private messageService: MessageService
+  ) {}
 
   ngOnInit(): void {
+    this.primengConfig.ripple = true;
     this.service.setUrl('contactplayer');
     this.createFormAnswer();
     this.createForm();
@@ -41,6 +50,12 @@ export class OrdersComponent implements OnInit {
       this.getOrders();
       this.createForm();
       this.displayNewApplication = false;
+      this.messageService.add({
+        severity: 'bg-bluegray-900',
+        detail: 'Dodano zgłoszenie',
+        contentStyleClass: 'color-toast-message text-center',
+        styleClass: 'color-toast-message',
+      });
     });
   }
 
@@ -64,7 +79,6 @@ export class OrdersComponent implements OnInit {
     this.order = order;
     this.log.debug(this.order);
   }
-
   showDialogNewApplication(): void {
     this.displayNewApplication = true;
   }
@@ -81,6 +95,12 @@ export class OrdersComponent implements OnInit {
       this.service.setUrl('contactplayer');
       this.getOrders();
       this.display = false;
+      this.messageService.add({
+        severity: 'bg-bluegray-900',
+        detail: 'Wysłano odpowiedź',
+        contentStyleClass: 'color-toast-message text-center',
+        styleClass: 'color-toast-message',
+      });
     });
   }
 }
