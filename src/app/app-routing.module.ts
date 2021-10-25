@@ -1,15 +1,25 @@
 import { NgModule } from '@angular/core';
-import { Routes, RouterModule, PreloadAllModules } from '@angular/router';
-import { Shell } from '@app/shell/shell.service';
+import { Routes, RouterModule } from '@angular/router';
+import { ENTITIES_ROUTES } from './entities/entities-routing.module';
+import { SubmitApplicationComponent } from './entities/orders/submit-application/submit-application.component';
+import { MainComponent } from './shell/main/main.component';
 
 const routes: Routes = [
-  Shell.childRoutes([{ path: 'about', loadChildren: () => import('./about/about.module').then((m) => m.AboutModule) }]),
+  {
+    path: '',
+    component: MainComponent,
+    children: [...ENTITIES_ROUTES],
+  },
+  {
+    path: 'submit-application',
+    component: SubmitApplicationComponent,
+  },
   // Fallback when no prior route is matched
   { path: '**', redirectTo: '', pathMatch: 'full' },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })],
+  imports: [RouterModule.forRoot(routes, { useHash: true, onSameUrlNavigation: 'reload' })],
   exports: [RouterModule],
   providers: [],
 })

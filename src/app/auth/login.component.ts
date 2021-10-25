@@ -6,7 +6,6 @@ import { finalize } from 'rxjs/operators';
 import { environment } from '@env/environment';
 import { Logger, UntilDestroy, untilDestroyed } from '@shared';
 import { AuthenticationService } from './authentication.service';
-
 const log = new Logger('Login');
 
 @UntilDestroy()
@@ -21,38 +20,21 @@ export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   isLoading = false;
 
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private formBuilder: FormBuilder,
-    private authenticationService: AuthenticationService
-  ) {
+  constructor(private formBuilder: FormBuilder, private authenticationService: AuthenticationService) {
     this.createForm();
   }
 
   ngOnInit() {}
 
   login() {
-    this.isLoading = true;
-    const login$ = this.authenticationService.login(this.loginForm.value);
-    login$
-      .pipe(
-        finalize(() => {
-          this.loginForm.markAsPristine();
-          this.isLoading = false;
-        }),
-        untilDestroyed(this)
-      )
-      .subscribe(
-        (credentials) => {
-          log.debug(`${credentials.username} successfully logged in`);
-          this.router.navigate([this.route.snapshot.queryParams.redirect || '/'], { replaceUrl: true });
-        },
-        (error) => {
-          log.debug(`Login error: ${error}`);
-          this.error = error;
-        }
-      );
+    let payload = this.loginForm.getRawValue();
+    const login$ = this.authenticationService.login(payload.username, payload.password, true);
+    login$.pipe(
+      finalize(() => {
+        this.loginForm.markAsPristine();
+      }),
+      untilDestroyed(this)
+    );
   }
 
   private createForm() {

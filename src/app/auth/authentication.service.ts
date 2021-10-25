@@ -1,10 +1,13 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { Logger, UntilDestroy, untilDestroyed } from '@shared';
 import { Credentials, CredentialsService } from './credentials.service';
-
+import { ActivatedRoute, Router } from '@angular/router';
+import { Message } from 'primeng//api';
+import { MessageService } from 'primeng/api';
 export interface LoginContext {
-  username: string;
+  email: string;
   password: string;
   remember?: boolean;
 }
@@ -17,20 +20,52 @@ export interface LoginContext {
   providedIn: 'root',
 })
 export class AuthenticationService {
-  constructor(private credentialsService: CredentialsService) {}
+  log = new Logger('Login');
+  isUserLoggedIn$ = new BehaviorSubject<boolean>(false);
+  error: string | undefined;
+  private url = 'http://localhost:3000/auth';
+
+  httpOptions: { headers: HttpHeaders } = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+  };
+
+  constructor(
+    private credentialsService: CredentialsService,
+    private http: HttpClient,
+    private router: Router,
+    private route: ActivatedRoute,
+    private messageService: MessageService
+  ) {}
 
   /**
    * Authenticates the user.
    * @param context The login parameters.
    * @return The user credentials.
    */
-  login(context: LoginContext): Observable<Credentials> {
-    // Replace by proper authentication call
-    const data = {
-      username: context.username,
-      token: '123456',
+  login(email: string, password: string, remember?: boolean): Observable<Credentials> {
+    let data = {
+      username: email,
+      token: '',
     };
-    this.credentialsService.setCredentials(data, context.remember);
+    // Replace by proper authentication call
+    this.http.post(`${this.url}/login`, { email, password }, this.httpOptions).subscribe(
+      (resp: any) => {
+        this.messageService.add({ severity: 'success', summary: 'Service Message', detail: 'Via MessageService' });
+        this.isUserLoggedIn$.next(true);
+        data = {
+          username: email,
+          token: resp.token,
+        };
+        this.log.debug(`${resp.username} successfully logged in`);
+        this.router.navigate([this.route.snapshot.queryParams.redirect || '/'], { replaceUrl: true });
+
+        this.credentialsService.setCredentials(data, remember);
+      },
+      (error) => {
+        this.log.debug(`Login error: ${error}`);
+        this.error = error;
+      }
+    );
     return of(data);
   }
 

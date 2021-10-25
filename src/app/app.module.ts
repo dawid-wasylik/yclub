@@ -14,6 +14,8 @@ import { HomeModule } from './home/home.module';
 import { ShellModule } from './shell/shell.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
+import { EntitesModule } from './entities/entities.module';
+import { UsersModule } from './entities/users/users.module';
 
 @NgModule({
   imports: [
@@ -26,27 +28,11 @@ import { AppRoutingModule } from './app-routing.module';
     NgbModule,
     SharedModule,
     ShellModule,
-    HomeModule,
     AuthModule,
     AppRoutingModule, // must be imported as the last module as it contains the fallback route
   ],
   declarations: [AppComponent],
-  providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: ApiPrefixInterceptor,
-      multi: true,
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: ErrorHandlerInterceptor,
-      multi: true,
-    },
-    {
-      provide: RouteReuseStrategy,
-      useClass: RouteReusableStrategy,
-    },
-  ],
+  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

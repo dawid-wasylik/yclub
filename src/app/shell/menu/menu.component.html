@@ -1,0 +1,39 @@
+<!-- <div class="menu">
+    <ul class="pr-4 pl-4">
+        <li>
+            <i class="pi pi-th-large"></i>
+            <span>Dashboard</span>
+        </li>
+        <li>
+            <i class="pi pi-list mt-3"></i>
+        </li>
+        <li>
+            <i class="pi pi-users mt-3"></i>
+        </li>
+        <li>
+            <i class="pi pi-inbox mt-3"></i>
+        </li>
+        <li>
+            <i class="pi pi-chart-bar mt-3"></i>
+        </li>
+        <li>
+            <i class="pi pi-clock mt-3"></i>
+        </li>
+    </ul>
+</div> -->
+<!-- <div class="menu pt-7">
+<p-panelMenu [model]="items"></p-panelMenu>
+</div> -->
+<nav class="sidebar">
+  <div class="scroll">
+    <ul>
+      <li *ngFor="let menuItem of items" [routerLinkActive]="'active'">
+        <a style="align-items: center" [routerLink]="menuItem.url" (click)="menuItem.expanded = !menuItem.expanded">
+          <i [ngClass]="[menuItem.icon]" style="font-size: 1.3rem" class="pi mt-3 mb-3"></i>
+          <span>{{ menuItem.label }}</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <footer class="p-as-end"></footer>
+</nav>

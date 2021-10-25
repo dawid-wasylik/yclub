@@ -8,9 +8,30 @@ import { I18nModule } from '@app/i18n';
 import { AuthModule } from '@app/auth';
 import { ShellComponent } from './shell.component';
 import { HeaderComponent } from './header/header.component';
+import { TableModule } from 'primeng/table';
+import { ButtonModule } from 'primeng/button';
+import { MenuComponent } from './menu/menu.component';
+import { PanelMenuModule } from 'primeng/panelmenu';
+import { MainComponent } from './main/main.component';
+import { MessagesModule } from 'primeng/messages';
+import { MessageService } from 'primeng/api';
+import { MessageModule } from 'primeng/message';
 
 @NgModule({
-  imports: [CommonModule, TranslateModule, NgbModule, AuthModule, I18nModule, RouterModule],
-  declarations: [HeaderComponent, ShellComponent],
+  imports: [
+    CommonModule,
+    TranslateModule,
+    MessagesModule,
+    MessageModule,
+    NgbModule,
+    TableModule,
+    AuthModule,
+    I18nModule,
+    RouterModule,
+    ButtonModule,
+    PanelMenuModule,
+  ],
+  declarations: [HeaderComponent, ShellComponent, MenuComponent, MainComponent],
+  providers: [MessageService],
 })
 export class ShellModule {}

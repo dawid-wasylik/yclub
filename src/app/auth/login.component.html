@@ -72,3 +72,29 @@
     </div>
   </div>
 </div> -->
+
+<div class="p-grid">
+  <div class="flex justify-content-center flex-wrap card-container yellow-container">
+    <img src="../../assets/logo_transparent.png" class="ml-auto mr-auto" height="250px" alt="" />
+  </div>
+  <form (ngSubmit)="login()" [formGroup]="loginForm" novalidate>
+    <div class="col-2 ml-auto mr-auto mt-7">
+      <div class="p-inputgroup">
+        <span class="p-inputgroup-addon"><i class="pi pi-user"></i></span>
+        <input type="text" formControlName="username" pInputText placeholder="Email" />
+      </div>
+      <div class="p-inputgroup mt-4">
+        <span class="p-inputgroup-addon"><i class="pi pi-unlock"></i></span>
+        <input type="password" formControlName="password" pInputText placeholder="Hasło" />
+      </div>
+      <button
+        pButton
+        pRipple
+        type="submit"
+        label="ZALOGUJ SIĘ"
+        class="w-full mt-4 fw-600"
+        [disabled]="loginForm.invalid"
+      ></button>
+    </div>
+  </form>
+</div>
